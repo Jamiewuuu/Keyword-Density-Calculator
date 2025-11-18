@@ -1,0 +1,78 @@
+{
+  "total_products": 10,
+  "default_logo_path": "data/products/logos/",
+  "products": [
+    {
+      "id": 1,
+      "name": "产品1",
+      "english_name": "Product1",
+      "website_url": "https://product1.com",
+      "description": "这是一个示例产品的描述信息，应该被外推到所有平台上。",
+      "short_description": "简洁的产品描述",
+      "long_description": "这是一个更加详细的产品描述，适用于需要较多文字的平台。我们提供高质量的产品和服务，致力于为用户提供最佳体验。欢迎大家了解更多信息。",
+      "logo": "product1_logo.png",
+      "category": "工具软件",
+      "tags": ["SaaS", "工具", "效率", "协作"],
+      "features": [
+        "易于使用",
+        "功能强大",
+        "安全可靠",
+        "24/7支持"
+      ],
+      "social_links": {
+        "twitter": "@product1",
+        "facebook": "facebook.com/product1",
+        "linkedin": "linkedin.com/company/product1"
+      },
+      "company": {
+        "name": "示例公司",
+        "website": "https://company.com",
+        "email": "contact@company.com"
+      }
+    },
+    {
+      "id": 2,
+      "name": "产品2",
+      "english_name": "Product2",
+      "website_url": "https://product2.com",
+      "description": "第二个示例产品的描述信息，适用于不同平台的外推需求。",
+      "short_description": "简洁的产品2描述",
+      "long_description": "产品2的详细描述信息，突出了产品的主要特色和功能。我们的产品已通过多项认证，获得了用户的广泛认可。",
+      "logo": "product2_logo.png",
+      "category": "设计工具",
+      "tags": ["设计", "创意", "AI", "图像"],
+      "features": [
+        "智能设计",
+        "模板丰富",
+        "协作功能",
+        "云端存储"
+      ],
+      "social_links": {
+        "instagram": "@product2_design",
+        "youtube": "youtube.com/product2_tutorials"
+      },
+      "company": {
+        "name": "创意科技公司",
+        "website": "https://creative-tech.com",
+        "email": "hello@creative-tech.com"
+      }
+    }
+  ],
+  "product_categories": {
+    "工具软件": "productivity_tools",
+    "设计工具": "design_tools",
+    "开发工具": "development_tools",
+    "营销工具": "marketing_tools",
+    "数据分析": "analytics_tools",
+    "教育平台": "education_platform",
+    "电商平台": "ecommerce_platform",
+    "金融工具": "financial_tools",
+    "健康应用": "health_app",
+    "娱乐应用": "entertainment_app"
+  },
+  "submission_templates": {
+    "short_template": "{name} - {short_description} 访问我们的网站: {website_url}",
+    "medium_template": "{name}是一款优秀的{category}，{description} 了解更多: {website_url}",
+    "long_template": "{name} - 专业的{category}解决方案。{long_description} 主要特性: {features} 官方网站: {website_url}"
+  }
+}

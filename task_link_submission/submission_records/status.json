@@ -1,0 +1,57 @@
+{
+  "task_status": {
+    "started": false,
+    "completed": false,
+    "start_time": null,
+    "end_time": null,
+    "total_submissions_attempted": 0,
+    "total_submissions_successful": 0,
+    "total_submissions_failed": 0,
+    "progress_percentage": 0
+  },
+  "website_status": {
+    "total_websites": 100,
+    "pending_websites": 100,
+    "completed_websites": 0,
+    "failed_websites": 0,
+    "skipped_websites": 0
+  },
+  "product_status": {
+    "total_products": 10,
+    "products_submitted": {
+      "product1": 0,
+      "product2": 0,
+      "product3": 0,
+      "product4": 0,
+      "product5": 0,
+      "product6": 0,
+      "product7": 0,
+      "product8": 0,
+      "product9": 0,
+      "product10": 0
+    }
+  },
+  "submission_log": [
+    {
+      "timestamp": "2025-11-18T19:03:00Z",
+      "website": "saasaitools.com",
+      "url": "https://saasaitools.com/submit/",
+      "action": "analyzed_submission_page",
+      "result": "found_user_registration_form_instead_of_tool_submission",
+      "note": "This page is for user registration, not tool submission"
+    }
+  ],
+  "failed_submissions": [
+    {
+      "website": "saasaitools.com",
+      "reason": "no_public_tool_submission_form_found",
+      "timestamp": "2025-11-18T19:03:00Z",
+      "suggested_action": "manual_outreach_or_find_alternatives"
+    }
+  ],
+  "successful_submissions": [],
+  "submission_namespaces": {
+    "product_website": {},
+    "submission_map": {}
+  }
+}

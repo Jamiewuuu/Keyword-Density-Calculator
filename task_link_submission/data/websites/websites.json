@@ -1,0 +1,65 @@
+{
+  "total_websites": 100,
+  "websites": [
+    {
+      "id": 1,
+      "name": "示例网站1",
+      "url": "https://example1.com",
+      "login_url": "https://example1.com/login",
+      "submission_type": "profile_link",
+      "category": "技术社区",
+      "credentials": {
+        "username": "your_username_1",
+        "password": "your_password_1"
+      },
+      "submission_fields": {
+        "website_field": "profile_website",
+        "description_field": "profile_description",
+        "logo_field": "profile_avatar"
+      },
+      "status": "registered",
+      "notes": "已注册完成",
+      "submission_rules": {
+        "min_description_length": 50,
+        "max_description_length": 500,
+        "allow_logo_upload": true
+      }
+    },
+    {
+      "id": 2,
+      "name": "示例网站2",
+      "url": "https://example2.com",
+      "login_url": "https://example2.com/signin",
+      "submission_type": "business_listing",
+      "category": "商业目录",
+      "credentials": {
+        "username": "your_username_2",
+        "password": "your_password_2"
+      },
+      "submission_fields": {
+        "website_field": "business_website",
+        "description_field": "business_description",
+        "category_field": "business_category"
+      },
+      "status": "registered",
+      "notes": "已注册完成",
+      "submission_rules": {
+        "min_description_length": 100,
+        "max_description_length": 1000,
+        "categories": ["科技", "互联网", "软件"]
+      }
+    }
+  ],
+  "website_categories": {
+    "技术社区": "tech_community",
+    "产品目录": "product_directory",
+    "商业平台": "business_platform",
+    "社交媒体": "social_media",
+    "论坛": "forum",
+    "博客平台": "blog_platform",
+    "行业网站": "industry_website",
+    "新闻媒体": "news_media",
+    "创业平台": "startup_platform",
+    "投资平台": "investment_platform"
+  }
+}
