@@ -1,0 +1,96 @@
+{
+  "popular_ai_directories": [
+    {
+      "name": "AI Tools Directory",
+      "url": "https://aitoolsdirectory.com/submit-tool",
+      "submission_type": "free",
+      "category": "AI工具目录",
+      "notes": "支持免费提交AI工具"
+    },
+    {
+      "name": "AI SuperHub",
+      "url": "https://aisuperhub.io/ai-tools/submit",
+      "submission_type": "free",
+      "category": "AI工具平台",
+      "notes": "综合性AI工具目录"
+    },
+    {
+      "name": "AITopTools",
+      "url": "https://aitoptools.com/submit",
+      "submission_type": "free/paid",
+      "category": "AI工具排行榜",
+      "notes": "提供免费和付费选项"
+    },
+    {
+      "name": "PowerUsers AI",
+      "url": "https://powerusers.ai/submit-ai-tool/",
+      "submission_type": "free",
+      "category": "AI工具测评",
+      "notes": "专注于AI工具的深度测评"
+    },
+    {
+      "name": "AI Tool Explainer",
+      "url": "https://aitoolexplainer.com/submit/",
+      "submission_type": "free",
+      "category": "AI工具解释",
+      "notes": "详细解释每个AI工具的功能"
+    },
+    {
+      "name": "ZPlatform AI",
+      "url": "https://zplatform.ai/submit-ai-tool/",
+      "submission_type": "free",
+      "category": "专家测评",
+      "notes": "专家级别的AI工具测评"
+    },
+    {
+      "name": "AI Tools Bucket",
+      "url": "https://aitoolsbucket.com/submit-ai-tool/",
+      "submission_type": "free",
+      "category": "AI工具收藏",
+      "notes": "收藏家式的AI工具推荐"
+    },
+    {
+      "name": "Directory Tools AI",
+      "url": "https://toolsaiapp.com/submit-your-ai-tool/",
+      "submission_type": "free",
+      "category": "工具目录",
+      "notes": "综合性工具目录平台"
+    },
+    {
+      "name": "Submit AI Tool (Premium)",
+      "url": "https://www.aitoolhub.net/gpt/add-tool",
+      "submission_type": "paid",
+      "category": "高端AI工具",
+      "notes": "付费提交，可能获得更多曝光"
+    },
+    {
+      "name": "AI Review Battle",
+      "url": "https://aireviewbattle.com/submit-your-ai-tool/",
+      "submission_type": "free",
+      "category": "AI对比评测",
+      "notes": "工具对比和评测平台"
+    }
+  ],
+  "batch_submission_services": [
+    {
+      "name": "SubmitAI",
+      "url": "https://submitai.pro/",
+      "service_type": "批量提交",
+      "description": "一次提交到100+ AI目录",
+      "pricing": "付费"
+    },
+    {
+      "name": "Submit SaaS",
+      "url": "https://submitsaas.com/",
+      "service_type": "自动化提交",
+      "description": "自动提交到多个SaaS目录",
+      "pricing": "付费"
+    }
+  ],
+  "submission_strategy": {
+    "phase1": "从免费目录开始，优先提交到知名度高的平台",
+    "phase2": "考虑付费提交到精准的垂直目录",
+    "phase3": "使用批量提交服务扩大覆盖范围",
+    "manual_outreach": "对于没有公开提交流程的高质量目录，考虑手动联系"
+  }
+}
