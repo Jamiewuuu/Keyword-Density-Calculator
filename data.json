@@ -1,0 +1,200 @@
+{
+  "Metadata": {
+    "Title": "All-in-One AI Image & Video Creation Platform | What an AI",
+    "Description": "Use What an AI, the free all-in-one AI image & video generator, to create high-quality visuals instantly. Turn text prompts, images, or videos into professional content without design skills."
+  },
+  "Hero": {
+    "Promotion": "Free Credits for new users!",
+    "Title": "The All-in-One AI Image and Video Creation Platform",
+    "Description": "Turn ideas into reality with What an AI. Instantly generate high-quality images and videos from text. The easiest way to create professional visuals without design skills."
+  },
+  "highlights": [
+    {
+      "title": "Make Images and Videos in One Place",
+      "description": "Stop switching apps. Use What an AI to generate images and turn them into videos in a single workflow."
+    },
+    {
+      "title": "Viral AI Effects for Social Media",
+      "description": "Create eye-catching content for TikTok and Instagram. Turn photos into animations that grab attention."
+    },
+    {
+      "title": "Access Top AI Models Instantly",
+      "description": "Experience the best AI engines in one hub. We select the right model to ensure high-quality results."
+    }
+  ],
+  "Features": {
+    "Title": "Why People Love Using What an AI",
+    "Description": "We make creative work simple. Whether you need a quick image or a full promo video, What an AI handles the hard work for you. Discover the features that make us the best AI tool for fast content production.",
+    "Items": [
+      {
+        "Title": "Instant Text to Image",
+        "Description": "Just type a description, and our AI image generator creates beautiful art, photos, or designs in seconds. It is perfect for rapid visual concepts."
+      },
+      {
+        "Title": "Magic Image to Video",
+        "Description": "Transform static photos into moving scenes. Use our AI tool to turn images into videos for dynamic storytelling."
+      },
+      {
+        "Title": "Text to Video Creation",
+        "Description": "Describe a scene, and What an AI will generate a video from scratch. It is the best way to make clips without a camera."
+      },
+      {
+        "Title": "Built-in AI Editor",
+        "Description": "Edit photos and videos directly in your browser. Fix details, upscale quality, or change ratios without external software."
+      },
+      {
+        "Title": "Diverse Art Styles",
+        "Description": "From realistic photography to 3D cartoons and anime. Choose the perfect style for your project with our multi-model hub."
+      },
+      {
+        "Title": "No Design Skills Needed",
+        "Description": "What an AI is built for everyone. You do not need to be a pro designer to create professional-looking marketing assets."
+      },
+      {
+        "Title": "Social Media Ready",
+        "Description": "Generate vertical videos for TikTok, YouTube Shorts, and Reels. We help you automate social media content creation."
+      },
+      {
+        "Title": "Commercial Use Ready",
+        "Description": "Create original assets for your business. Use our AI tool for e-commerce product images, ads, and blog posts."
+      }
+    ]
+  },
+  "Testimonial": {
+    "Title": "What Users Say About What an AI",
+    "Description": "See why thousands of creators, marketers, and designers trust What an AI for their daily content creation.",
+    "Items": [
+      {
+        "Name": "Sarah Jenkins",
+        "Occupation": "Social Media Manager",
+        "Quote": "I used to spend hours searching for stock footage. Now, I use What an AI to generate specific clips for my clients in minutes. It is a game changer."
+      },
+      {
+        "Name": "David Chen",
+        "Occupation": "Freelance Designer",
+        "Quote": "The image-to-video feature is incredible. I took a static poster I designed and turned it into a motion ad. My client loved it!"
+      },
+      {
+        "Name": "Emily R.",
+        "Occupation": "E-commerce Owner",
+        "Quote": "I needed product photos but couldn't afford a photographer. What an AI helped me create professional backgrounds for my products instantly."
+      },
+      {
+        "Name": "Mark T.",
+        "Occupation": "Content Creator",
+        "Quote": "Finally, an AI tool that combines image and video. I can make my YouTube thumbnails and intros all on one platform."
+      },
+      {
+        "Name": "Jessica L.",
+        "Occupation": "Blogger",
+        "Quote": "I use What an AI to make custom images for my blog posts. It drives so much more traffic than generic stock photos."
+      },
+      {
+        "Name": "Ryan K.",
+        "Occupation": "Digital Marketer",
+        "Quote": "The speed is amazing. I can test ten different ad concepts in the time it used to take me to make one."
+      },
+      {
+        "Name": "Sophie M.",
+        "Occupation": "Student",
+        "Quote": "I used this for a class presentation to make a short explanatory video. It was so easy to use, even for a beginner like me."
+      },
+      {
+        "Name": "Alex B.",
+        "Occupation": "Game Developer",
+        "Quote": "Great for concept art. I type in my ideas, and What an AI gives me visual references I can use for character design."
+      },
+      {
+        "Name": "Chris P.",
+        "Occupation": "Video Editor",
+        "Quote": "This helps me add b-roll to my edits when I am missing footage. The text-to-video quality is getting better every day."
+      },
+      {
+        "Name": "Linda G.",
+        "Occupation": "Small Business Owner",
+        "Quote": "I saved so much money on marketing. What an AI lets me be my own creative team."
+      },
+      {
+        "Name": "Tom H.",
+        "Occupation": "Graphic Designer",
+        "Quote": "The ability to fix and edit images right after generating them saves me a trip to Photoshop. Very efficient workflow."
+      },
+      {
+        "Name": "Amanda W.",
+        "Occupation": "Influencer",
+        "Quote": "My engagement went up when I started using the AI effects. It makes my content look high-tech and cool."
+      },
+      {
+        "Name": "Kevin S.",
+        "Occupation": "Tech Reviewer",
+        "Quote": "I have tested many tools, but What an AI is the most consistent. The multi-model approach really works."
+      },
+      {
+        "Name": "Rachel D.",
+        "Occupation": "Writer",
+        "Quote": "I have no visual skills, but this tool lets me visualize my stories. It is like magic."
+      },
+      {
+        "Name": "Brian F.",
+        "Occupation": "Agency Owner",
+        "Quote": "We scaled our content production by 5x using What an AI. It is essential for any modern agency."
+      }
+    ]
+  },
+  "FAQ": {
+    "Title": "Common Questions About What an AI",
+    "Description": "Find answers to the most frequent questions about our AI image and video generator. Learn how to get started today.",
+    "Items": [
+      {
+        "Question": "What is What an AI?",
+        "Answer": "What an AI is an all-in-one creative platform. It allows you to generate images, create videos, and apply visual effects using advanced artificial intelligence, all without needing design skills."
+      },
+      {
+        "Question": "Is there a free AI tool for beginners?",
+        "Answer": "Yes, What an AI offers a free tier for new users. You can start generating images and videos immediately to test the platform's capabilities."
+      },
+      {
+        "Question": "Can I turn text into video with What an AI?",
+        "Answer": "Absolutely. Our text-to-video feature allows you to type a simple prompt, and our AI will generate a dynamic video clip based on your description."
+      },
+      {
+        "Question": "How do I convert an image to animation?",
+        "Answer": "Simply upload your photo to the image-to-video tool within What an AI. You can then choose motion settings to bring your static image to life."
+      },
+      {
+        "Question": "Do I need a powerful computer to use this?",
+        "Answer": "No, What an AI is an online AI tool. All the processing happens in the cloud, so you can use it on any computer or mobile device with internet access."
+      },
+      {
+        "Question": "Can I use the images for commercial purposes?",
+        "Answer": "Yes, our paid plans allow for commercial use. You can use the generated content for ads, websites, and products. Please check our pricing page for specific license details."
+      },
+      {
+        "Question": "How long does it take to generate a video?",
+        "Answer": "It is very fast. Most short videos are generated in just a few minutes, making it an excellent tool for fast content production."
+      },
+      {
+        "Question": "What makes What an AI different from other tools?",
+        "Answer": "We combine multiple top-tier AI models into one platform. Instead of paying for separate image and video tools, you get everything in one place with What an AI."
+      },
+      {
+        "Question": "Can I edit the photos after generating them?",
+        "Answer": "Yes, we have a built-in AI editor. You can upscale, crop, remove backgrounds, and apply filters directly within the platform."
+      },
+      {
+        "Question": "Is it good for social media content?",
+        "Answer": "It is perfect for it. You can create vertical videos (9:16) specifically for TikTok, Instagram Reels, and YouTube Shorts."
+      }
+    ]
+  },
+  "CTA": {
+    "Title": "Ready to Create Amazing Content?",
+    "Description": "Join the best AI tool for creators today. Turn your text into images and videos instantly. No credit card required to start.",
+    "ButtonText": "Try What an AI for Free"
+  },
+  "Footer": {
+    "ProductName": "What an AI",
+    "ProductDescription": "The ultimate AI productivity tool for generating professional images and videos online. Empowering creators with advanced generative AI.",
+    "Copyright": "© 2025 What an AI All rights reserved."
+  }
+}
