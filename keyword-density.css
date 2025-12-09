@@ -1,0 +1,476 @@
+/* Reset and Base Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    line-height: 1.6;
+    color: #333;
+    background-color: #ffffff;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* Tool Header */
+.tool-header {
+    padding: 60px 0;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    text-align: center;
+    border-radius: 0 0 40px 40px;
+    margin-bottom: 40px;
+}
+
+.tool-header h1 {
+    font-size: 2.5rem;
+    font-weight: 800;
+    margin-bottom: 15px;
+}
+
+.tool-header p {
+    font-size: 1.2rem;
+    opacity: 0.9;
+}
+
+/* Main Content */
+.tool-main {
+    padding: 40px 0;
+}
+
+/* Side-by-side layout wrapper */
+.content-wrapper {
+    display: flex;
+    gap: 30px;
+    align-items: flex-start;
+}
+
+/* Input Section - 60% width */
+.input-section {
+    background: #f8f9ff;
+    padding: 40px;
+    border-radius: 20px;
+    flex: 0 0 60%;
+    margin-bottom: 0;
+}
+
+/* Results Section - 40% width */
+.results-section {
+    background: white;
+    padding: 40px;
+    border-radius: 20px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.05);
+    flex: 0 0 40%;
+}
+
+.input-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.input-header h2 {
+    color: #333;
+    font-size: 1.5rem;
+}
+
+.word-count-selector {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.word-count-selector label {
+    font-weight: 600;
+    color: #555;
+    font-size: 0.9rem;
+}
+
+.word-count-buttons {
+    display: flex;
+    gap: 5px;
+}
+
+.word-count-btn {
+    padding: 8px 16px;
+    border: 2px solid #e1e5f0;
+    background: white;
+    color: #667eea;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.word-count-btn:hover {
+    border-color: #667eea;
+}
+
+.word-count-btn.active {
+    background: #667eea;
+    color: white;
+    border-color: #667eea;
+}
+
+/* Textarea Container with Highlight Overlay */
+.textarea-container {
+    position: relative;
+    margin-bottom: 25px;
+}
+
+textarea#text-input {
+    width: 100%;
+    min-height: 300px;
+    padding: 20px;
+    background: white;
+    border: 2px solid #e1e5f0;
+    border-radius: 15px;
+    font-size: 1rem;
+    font-family: inherit;
+    line-height: 1.5;
+    resize: vertical;
+    outline: none;
+    transition: border-color 0.3s ease;
+    position: relative;
+    z-index: 2;
+}
+
+textarea#text-input:focus {
+    border-color: #667eea;
+}
+
+.highlight-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    min-height: 300px;
+    padding: 20px;
+    border: 2px solid transparent;
+    border-radius: 15px;
+    font-size: 1rem;
+    line-height: 1.5;
+    font-family: inherit;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    pointer-events: none;
+    overflow: hidden;
+    color: transparent;
+    z-index: 1;
+}
+
+.highlight-text {
+    background: #fff3cd;
+    border-radius: 3px;
+    padding: 1px 2px;
+    font-weight: 600;
+}
+
+/* Input Actions */
+.input-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 15px;
+}
+
+.clear-btn {
+    padding: 12px 25px;
+    background: white;
+    border: 2px solid #e1e5f0;
+    color: #666;
+    border-radius: 25px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.clear-btn:hover {
+    border-color: #667eea;
+    color: #667eea;
+}
+
+.cta-button {
+    background: linear-gradient(45deg, #ff6b6b, #ff8e53);
+    color: white;
+    border: none;
+    padding: 14px 35px;
+    border-radius: 25px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    box-shadow: 0 5px 20px rgba(255, 107, 107, 0.3);
+}
+
+.cta-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 30px rgba(255, 107, 107, 0.4);
+}
+
+.cta-button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* Results Section */
+.results-section {
+    background: white;
+    padding: 40px;
+    border-radius: 20px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.05);
+}
+
+.results-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.results-header h2 {
+    color: #333;
+    font-size: 1.5rem;
+}
+
+.stats-summary {
+    display: flex;
+    gap: 20px;
+    font-size: 0.95rem;
+}
+
+.stats-summary span {
+    color: #666;
+}
+
+.stats-summary strong {
+    color: #667eea;
+}
+
+/* Table */
+.table-container {
+    overflow-x: auto;
+    border-radius: 10px;
+    border: 1px solid #e1e5f0;
+}
+
+.results-table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 600px;
+}
+
+.results-table th {
+    background: #f8f9ff;
+    padding: 15px;
+    text-align: left;
+    font-weight: 600;
+    color: #333;
+    border-bottom: 2px solid #e1e5f0;
+}
+
+.results-table td {
+    padding: 15px;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.results-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.results-table tbody tr:hover {
+    background: #f8f9ff;
+}
+
+.keyword-cell {
+    font-family: 'Monaco', 'Menlo', monospace;
+    font-size: 0.95rem;
+    color: #333;
+}
+
+.count-cell, .total-cell, .density-cell {
+    text-align: center;
+    font-weight: 600;
+}
+
+.density-cell {
+    color: #667eea;
+}
+
+/* Highlight Button */
+.highlight-btn {
+    padding: 6px 12px;
+    background: #667eea;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.highlight-btn:hover {
+    background: #5a6fd8;
+}
+
+.highlight-btn.active {
+    background: #ff6b6b;
+}
+
+.highlight-btn.active:hover {
+    background: #ff5252;
+}
+
+/* No Results */
+.no-results {
+    text-align: center;
+    padding: 80px 20px;
+    color: #999;
+    font-size: 1.1rem;
+}
+
+.no-results p {
+    margin-bottom: 10px;
+}
+
+/* Footer */
+.tool-footer {
+    padding: 40px 0;
+    text-align: center;
+    color: #666;
+    font-size: 0.95rem;
+}
+
+.tool-footer a {
+    color: #667eea;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.tool-footer a:hover {
+    text-decoration: underline;
+}
+
+/* Loading State */
+.loading {
+    text-align: center;
+    padding: 40px;
+    color: #667eea;
+}
+
+.loading::after {
+    content: '';
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    border: 2px solid #667eea;
+    border-radius: 50%;
+    border-top-color: transparent;
+    animation: spin 1s linear infinite;
+    margin-left: 10px;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+    .content-wrapper {
+        flex-direction: column;
+        gap: 25px;
+    }
+
+    .input-section {
+        flex: 1;
+        margin-bottom: 0;
+    }
+
+    .results-section {
+        flex: 1;
+    }
+}
+
+@media (max-width: 768px) {
+    .tool-header {
+        padding: 40px 0;
+    }
+
+    .tool-header h1 {
+        font-size: 2rem;
+    }
+
+    .input-section, .results-section {
+        padding: 25px;
+    }
+
+    .input-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .results-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .stats-summary {
+        align-self: flex-start;
+    }
+
+    textarea#text-input, .highlight-overlay {
+        min-height: 250px;
+    }
+
+    .input-actions {
+        flex-direction: column;
+    }
+
+    .cta-button, .clear-btn {
+        width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        padding: 0 15px;
+    }
+
+    .tool-header h1 {
+        font-size: 1.8rem;
+    }
+
+    .word-count-buttons {
+        flex-wrap: wrap;
+    }
+
+    .word-count-btn {
+        padding: 6px 12px;
+        font-size: 0.85rem;
+    }
+
+    .content-wrapper {
+        gap: 20px;
+    }
+
+    .input-section,
+    .results-section {
+        padding: 20px;
+    }
+}
