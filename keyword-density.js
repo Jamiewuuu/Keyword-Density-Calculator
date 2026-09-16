@@ -3,6 +3,8 @@ class KeywordDensityCalculator {
     constructor() {
         this.currentWordCount = 1;
         this.highlightedKeywords = new Set();
+        // 密度分母是否剔除虚词：false = 页面总词数（默认，行业标准口径），true = 仅实词
+        this.excludeStopWordsFromTotal = false;
         this.initializeEventListeners();
         this.renderHighlightedTags();
     }
@@ -105,15 +107,62 @@ class KeywordDensityCalculator {
         }, '');
     }
 
+    // 停用词表：无意义虚词不进入分析结果（英文统一小写；中文含典型虚词单字和常用双字虚词）
+    // 注意：中文按单字切分，单字虚词会导致包含它的中文词组被整条过滤，如需保留请自行删减此表
+    static STOP_WORDS = new Set([
+        // 英文冠词/介词/连词/代词/系动词/助动词等
+        'a', 'an', 'the', 'and', 'or', 'but', 'nor', 'so', 'yet',
+        'of', 'in', 'on', 'at', 'by', 'for', 'with', 'about', 'against', 'between',
+        'into', 'through', 'during', 'before', 'after', 'above', 'below',
+        'to', 'from', 'up', 'down', 'out', 'off', 'over', 'under',
+        'again', 'further', 'then', 'once', 'here', 'there',
+        'when', 'where', 'why', 'how', 'all', 'any', 'both', 'each', 'few',
+        'more', 'most', 'other', 'some', 'such', 'no', 'not', 'only', 'own',
+        'same', 'than', 'too', 'very', 'just', 'now', 'also',
+        'i', 'me', 'my', 'myself', 'we', 'our', 'ours', 'ourselves',
+        'you', 'your', 'yours', 'yourself', 'yourselves',
+        'he', 'him', 'his', 'himself', 'she', 'her', 'hers', 'herself',
+        'it', 'its', 'itself', 'they', 'them', 'their', 'theirs', 'themselves',
+        'what', 'which', 'who', 'whom', 'this', 'that', 'these', 'those',
+        'am', 'is', 'are', 'was', 'were', 'be', 'been', 'being',
+        'have', 'has', 'had', 'having', 'do', 'does', 'did', 'doing',
+        'will', 'would', 'shall', 'should', 'can', 'could', 'may', 'might', 'must',
+        'if', 'because', 'until', 'while', 'as',
+        "it's", "don't", "isn't", "wasn't", "won't", "can't", "doesn't", "didn't",
+        "aren't", "hasn't", "haven't", "couldn't", "shouldn't", "wouldn't",
+        "that's", "what's", "there's", "i'm", "i've", "i'll", "you're", "we're", "they're", "let's",
+        // 中文虚词单字
+        '的', '了', '着', '过', '是', '在', '和', '与', '及', '或', '而', '被', '把',
+        '吗', '呢', '吧', '啊', '呀', '哦', '嘛', '之', '其', '此', '也', '就', '都',
+        '很', '太', '又', '再', '才', '还', '们', '个', '你', '我', '他', '她', '它', '咱',
+        // 中文双字虚词
+        '这个', '那个', '这些', '那些', '这样', '那样',
+        '我们', '你们', '他们', '她们', '它们', '自己',
+        '什么', '怎么', '怎样', '哪个', '哪些', '哪里', '为什么', '怎么样',
+        '但是', '可是', '不过', '然而', '因为', '所以', '如果', '虽然', '既然',
+        '无论', '不管', '只要', '只有', '除非', '而且', '并且', '或者', '还是',
+        '以及', '甚至', '对于', '关于', '由于', '通过', '按照', '依照', '根据', '除了',
+        '可以', '应该', '必须', '可能',
+    ]);
+
+    isStopWord(token) {
+        return KeywordDensityCalculator.STOP_WORDS.has(token);
+    }
+
     generateNGrams(tokens, n) {
         const ngrams = [];
 
         if (n === 1) {
-            return tokens;
+            // 虚词不单独进入结果（如 the / 的 / 了）
+            return tokens.filter(token => !this.isStopWord(token));
         }
 
         for (let i = 0; i <= tokens.length - n; i++) {
-            ngrams.push(this.joinNgramTokens(tokens.slice(i, i + n)));
+            const window = tokens.slice(i, i + n);
+            // 词组中任意位置含虚词则整条跳过：
+            // 保证结果都是原文中真实连续出现的纯实词组合，而不是删掉虚词后拼出的假词组
+            if (window.some(token => this.isStopWord(token))) continue;
+            ngrams.push(this.joinNgramTokens(window));
         }
 
         return ngrams;
@@ -164,8 +213,11 @@ class KeywordDensityCalculator {
 
         // For short texts (less than 10 words), show a warning but continue
         if (tokens.length < 5) {
-            this.analyze(text);
-            this.addShortTextWarning(tokens.length);
+            const hasResults = this.analyze(text);
+            // 只有真正产出了结果才附加短文本提醒，避免覆盖"无结果"的错误提示
+            if (hasResults) {
+                this.addShortTextWarning(tokens.length);
+            }
             return;
         }
 
@@ -179,12 +231,19 @@ class KeywordDensityCalculator {
         // Use all tokens for analysis (including stop words for 1-word mode)
         const tokensForAnalysis = allTokens;
 
+        // 密度分母：默认为页面总词数（含虚词）；开关打开时只统计实词
+        // Total 列、Total Words 统计、密度分母三者始终用同一个数，保证口径一致
+        const totalWords = this.excludeStopWordsFromTotal
+            ? allTokens.filter(token => !this.isStopWord(token)).length
+            : allTokens.length;
+
         // Generate n-grams from analysis tokens
         const ngrams = this.generateNGrams(tokensForAnalysis, this.currentWordCount);
 
         if (ngrams.length === 0) {
-            this.showNoResults('Not enough words for this analysis.');
-            return;
+            // 过滤虚词后可能一条结果都不剩（如整段输入全是 the/of/的/了）
+            this.showNoResults('No results: all words were filtered out as stop words, or the text is too short for this mode.');
+            return false;
         }
 
         const { frequency } = this.calculateFrequency(ngrams);
@@ -194,15 +253,16 @@ class KeywordDensityCalculator {
             .map(([keyword, count]) => ({
                 keyword,
                 count,
-                total: allTokens.length, // Use actual word count instead of ngram count
+                total: totalWords, // Use actual word count instead of ngram count
                 // 密度 = 关键词完整出现次数 ÷ 页面总词数 × 100，分母与 Total 列保持一致
-                density: parseFloat(this.calculateDensity(count, allTokens.length))
+                density: parseFloat(this.calculateDensity(count, totalWords))
             }))
             .sort((a, b) => b.count - a.count || b.density - a.density);
 
         this.displayResults(results);
         // Use original token count (allTokens) for Total Words, so it's consistent across modes
-        this.updateStats(allTokens.length, results.length);
+        this.updateStats(totalWords, results.length);
+        return true;
     }
 
     displayResults(results) {
@@ -270,6 +330,8 @@ class KeywordDensityCalculator {
                 </p>
             </div>
         `;
+        // 显式显示警告区域（短文本警告与结果表格并存展示）
+        noResults.classList.remove('hidden');
     }
 
     renderHighlightedTags() {
@@ -625,6 +687,18 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     });
+
+    // 分母虚词开关：切换后用当前文本重新分析
+    const excludeStopwordsToggle = document.getElementById('exclude-stopwords');
+    if (excludeStopwordsToggle) {
+        excludeStopwordsToggle.addEventListener('change', () => {
+            calculator.excludeStopWordsFromTotal = excludeStopwordsToggle.checked;
+            const text = calculator.getTextInputValue().trim();
+            if (text) {
+                calculator.handleAnalyze();
+            }
+        });
+    }
 
     // Show initial "Ready for Analysis" state
     calculator.showNoResults();

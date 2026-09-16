@@ -294,6 +294,28 @@
             border-radius: 3px;
         }
 
+        /* 分母虚词开关 */
+        .stopwords-toggle {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin: -8px 0 20px;
+            font-size: 13px;
+            color: var(--text-secondary);
+            cursor: pointer;
+            user-select: none;
+            transition: color 0.15s ease;
+        }
+
+        .stopwords-toggle:hover { color: var(--primary-color); }
+
+        .stopwords-toggle input {
+            accent-color: var(--primary-color);
+            width: 15px;
+            height: 15px;
+            cursor: pointer;
+        }
+
         /* Subtle alert styling */
         .alert-subtle {
             background: linear-gradient(135deg, #FFFBEB 0%, #FEF3C7 100%);
@@ -434,6 +456,12 @@
                             <button class="word-count-tab" data-count="10">10 Words</button>
                         </div>
                     </div>
+
+                    <!-- 分母虚词开关：勾选后密度分母与 Total Words 只统计实词 -->
+                    <label class="stopwords-toggle" title="Density denominator counts real words only (skips stop words like the, of, 的, 了)">
+                        <input type="checkbox" id="exclude-stopwords">
+                        <span>Real words only</span>
+                    </label>
 
                     <!-- Highlighted Keywords Tags -->
                     <div id="highlighted-tags" class="mb-6 hidden">
