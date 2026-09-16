@@ -1,0 +1,33 @@
+# 自动同步首页：keyword-density.html 变更时，将其复制为 index.html
+# 仓库以工具页作为 GitHub Pages 首页，此工作流保证两份文件始终一致
+name: Sync homepage
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'keyword-density.html'
+
+permissions:
+  contents: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Sync keyword-density.html to index.html
+        run: |
+          if diff -q keyword-density.html index.html > /dev/null; then
+            echo "index.html 已与 keyword-density.html 一致，跳过同步"
+            exit 0
+          fi
+
+          cp keyword-density.html index.html
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.html
+          git commit -m "chore(pages): 同步首页为最新工具页 [skip ci]"
+          git push
