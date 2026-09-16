@@ -75,23 +75,34 @@ class KeywordDensityCalculator {
     getCleanWordCount(text) {
         // Count words after cleaning (to match Total Words in results)
         // This ensures consistency between input stats and analysis results
+        return this.toTokens(text).length;
+    }
+
+    toTokens(text) {
+        // 统一分词入口：清洗 → 中文按单字切分 → 按空白拆分
         const cleaned = this.cleanText(text);
-        if (!cleaned) return 0;
-        return cleaned.split(/\s+/).filter(token => token.length > 0).length;
+        if (!cleaned) return [];
+
+        // 中文没有空格分隔，必须按单字切开，n-gram 才能统计出完整的中文词组
+        // （如「关键词密度」= 连续 5 个字）；英文单词、数字串保持完整不拆
+        const segmented = cleaned.replace(/([\u4e00-\u9fa5])/g, ' $1 ');
+
+        return segmented.split(/\s+/).filter(token => token.length > 0);
     }
 
     tokenize(text) {
-        // Use cleanText for tokenization (for analysis), but count original words for stats
-        const cleaned = this.cleanText(text);
+        return this.toTokens(text);
+    }
 
-        // If empty after cleaning, return empty array
-        if (!cleaned) return [];
-
-        // Split by space for English, and by characters for Chinese mixed text
-        const tokens = cleaned.split(/\s+/).filter(token => token.length > 0);
-
-        // Return all tokens (including stop words for 1-word mode as per requirement)
-        return tokens;
+    joinNgramTokens(tokens) {
+        // 拼接 n-gram：相邻都是中文时不加空格（还原成连续词组，方便展示和高亮匹配），
+        // 其余情况（英文、数字、中英相邻）用空格分隔
+        const isCJK = (ch) => /[\u4e00-\u9fa5]/.test(ch);
+        return tokens.reduce((acc, token) => {
+            if (!acc) return token;
+            const separator = isCJK(acc[acc.length - 1]) && isCJK(token[0]) ? '' : ' ';
+            return acc + separator + token;
+        }, '');
     }
 
     generateNGrams(tokens, n) {
@@ -102,8 +113,7 @@ class KeywordDensityCalculator {
         }
 
         for (let i = 0; i <= tokens.length - n; i++) {
-            const ngram = tokens.slice(i, i + n).join(' ');
-            ngrams.push(ngram);
+            ngrams.push(this.joinNgramTokens(tokens.slice(i, i + n)));
         }
 
         return ngrams;
@@ -164,8 +174,7 @@ class KeywordDensityCalculator {
 
     analyze(text) {
         // Get ALL tokens for analysis (no filtering for 1-word mode as per requirement)
-        const cleaned = this.cleanText(text);
-        const allTokens = cleaned.split(/\s+/).filter(token => token.length > 0);
+        const allTokens = this.toTokens(text);
 
         // Use all tokens for analysis (including stop words for 1-word mode)
         const tokensForAnalysis = allTokens;
@@ -178,7 +187,7 @@ class KeywordDensityCalculator {
             return;
         }
 
-        const { frequency, total } = this.calculateFrequency(ngrams);
+        const { frequency } = this.calculateFrequency(ngrams);
 
         // Convert to array and sort by count (descending)
         const results = Object.entries(frequency)
@@ -186,7 +195,8 @@ class KeywordDensityCalculator {
                 keyword,
                 count,
                 total: allTokens.length, // Use actual word count instead of ngram count
-                density: parseFloat(this.calculateDensity(count, total))
+                // 密度 = 关键词完整出现次数 ÷ 页面总词数 × 100，分母与 Total 列保持一致
+                density: parseFloat(this.calculateDensity(count, allTokens.length))
             }))
             .sort((a, b) => b.count - a.count || b.density - a.density);
 
