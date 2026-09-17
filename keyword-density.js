@@ -281,15 +281,16 @@ class KeywordDensityCalculator {
             row.className = 'table-row-hover';
 
             row.innerHTML = `
-                <td class="keyword-cell font-mono text-gray-900">${this.escapeHtml(result.keyword)}</td>
-                <td class="count-cell text-center font-medium text-gray-900">${result.count}</td>
-                <td class="total-cell text-center text-gray-600">${result.total}</td>
-                <td class="density-cell text-center font-medium" style="color: var(--primary-color);">${result.density}%</td>
+                <td class="keyword-cell">${this.escapeHtml(result.keyword)}</td>
+                <td class="count-cell">${result.count}</td>
+                <td class="total-cell">${result.total}</td>
+                <td class="density-cell">${result.density}%</td>
                 <td class="text-center">
-                    <button class="px-2 py-1 text-xs rounded-md border border-gray-200 hover:border-gray-300 hover:bg-gray-50 transition-colors ${this.highlightedKeywords.has(result.keyword) ? 'bg-blue-50 border-blue-300 text-blue-700' : 'text-gray-600'}"
+                    <button class="row-highlight-btn${this.highlightedKeywords.has(result.keyword) ? ' is-active' : ''}"
                             data-keyword="${this.escapeHtml(result.keyword)}"
                             onclick="calculator.toggleHighlight('${this.escapeHtmlAttribute(result.keyword)}')">
-                        ${this.highlightedKeywords.has(result.keyword) ? '<i class="fas fa-eye-slash mr-1"></i>Unhighlight' : '<i class="fas fa-highlighter mr-1"></i>Highlight'}
+                        <i class="fas ${this.highlightedKeywords.has(result.keyword) ? 'fa-eye-slash' : 'fa-highlighter'}"></i>
+                        ${this.highlightedKeywords.has(result.keyword) ? 'Unhighlight' : 'Highlight'}
                     </button>
                 </td>
             `;
@@ -321,16 +322,11 @@ class KeywordDensityCalculator {
     addShortTextWarning(wordCount) {
         const noResults = document.getElementById('no-results');
         noResults.innerHTML = `
-            <div style="background: #fff3cd; border: 2px solid #ffc107; border-radius: 10px; padding: 20px; margin-bottom: 20px;">
-                <p style="color: #856404; margin-bottom: 10px;">
-                    <strong>⚠️ Short text detected:</strong> Only ${wordCount} words found.
-                </p>
-                <p style="color: #856404; font-size: 0.9rem;">
-                    For more meaningful SEO analysis, consider using longer text (50+ words).
-                </p>
+            <div class="warning-box">
+                <p>⚠️ Short text detected: Only ${wordCount} words found.</p>
+                <p class="warning-sub">For more meaningful SEO analysis, consider using longer text (50+ words).</p>
             </div>
         `;
-        // 显式显示警告区域（短文本警告与结果表格并存展示）
         noResults.classList.remove('hidden');
     }
 
@@ -643,23 +639,23 @@ document.addEventListener('DOMContentLoaded', function() {
             // Handle no input case with specific message
             if (message === 'no_input') {
                 noResults.innerHTML = `
-                    <div class="w-16 h-16 mx-auto mb-4 rounded-full flex items-center justify-center" style="background: rgba(245, 158, 11, 0.1);">
-                        <i class="fas fa-file-alt text-xl" style="color: var(--warning);"></i>
+                    <div class="empty-icon warning">
+                        <i class="fas fa-file-alt"></i>
                     </div>
-                    <h4 class="text-gray-600 font-medium mb-1">No Text Entered</h4>
-                    <p class="text-gray-500 text-sm">Please paste or type your text above before analyzing</p>
+                    <h4 class="nr-title mb-1">No Text Entered</h4>
+                    <p class="nr-sub">Please paste or type your text above before analyzing</p>
                 `;
             } else if (message !== null) {
                 // Custom error message
-                noResults.innerHTML = `<div style="background: #fee; border: 1px solid #fcc; padding: 10px; border-radius: 4px; color: #c00;">${message}</div>`;
+                noResults.innerHTML = `<div class="error-box">${message}</div>`;
             } else {
                 // If message is null, restore default HTML (Ready for Analysis)
                 noResults.innerHTML = `
-                    <div class="w-16 h-16 mx-auto mb-4 rounded-full flex items-center justify-center" style="background: rgba(84, 66, 222, 0.1);">
-                        <i class="fas fa-chart-pie text-xl" style="color: var(--primary-color);"></i>
+                    <div class="empty-icon">
+                        <i class="fas fa-chart-pie text-xl"></i>
                     </div>
-                    <h4 class="text-gray-600 font-medium mb-1">Ready for Analysis</h4>
-                    <p class="text-gray-500 text-sm">Enter your text above and click "Analyze Now"</p>
+                    <h4 class="nr-title mb-1">Ready for Analysis</h4>
+                    <p class="nr-sub">Enter your text above and click "Analyze Now"</p>
                 `;
             }
             noResults.classList.remove('hidden');

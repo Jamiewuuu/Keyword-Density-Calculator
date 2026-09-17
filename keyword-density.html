@@ -5,301 +5,374 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Keyword Density Calculator - What an AI</title>
     <meta name="description" content="Keyword Density Analysis tool to optimize your content for SEO. Analyze keyword frequency, density, and optimize your content with our free calculator.">
+    <meta name="theme-color" content="#ffffff">
 
     <!-- TailwindCSS 3.4 -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        // Tailwind 默认字体指向 Inter / Geist Mono，避免 CDN 注入样式覆盖
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'ui-sans-serif', 'system-ui', '-apple-system', 'sans-serif'],
+                        mono: ['"Geist Mono"', 'ui-monospace', 'Menlo', 'monospace'],
+                    },
+                },
+            },
+        };
+    </script>
+
+    <!-- Fonts: Inter(主字体) + Geist Mono(数字/关键词) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 
     <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
-    <!-- Custom Styles with Linear App inspiration -->
+    <!-- Traffic.cv 风格：纯白底 + 深靛蓝墨字 + Stripe 紫单强调色 + 彩色阴影 -->
     <style>
         :root {
-            --primary-color: #5442DE;
-            --primary-light: #6D5AE7;
-            --primary-dark: #3D2FB8;
-            --secondary-bg: #FCF9F6;
-            --border-color: #E5E4E1;
-            --text-primary: #1A1A1A;
-            --text-secondary: #6B6A67;
-            --success: #12B76A;
-            --warning: #F59E0B;
-            --error: #F04438;
-            --shadow-subtle: 0 1px 2px rgba(0, 0, 0, 0.05);
-            --shadow-light: 0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.06);
-            --shadow-medium: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-            --shadow-heavy: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            /* 色板 */
+            --primary-color: #635bff;
+            --primary-hover: rgba(99, 91, 255, 0.9);
+            --accent: #efeffa;
+            --secondary-bg: #ffffff;
+            --muted: #f8f9fb;
+            --border-color: rgba(38, 50, 77, 0.15);
+            --border-strong: rgba(38, 50, 77, 0.22);
+            --text-primary: #1c274c;
+            --text-secondary: #5d6d84;
+            --success: #008359;
+            --warning: #ba7404;
+            --error: #cb2732;
+
+            /* 彩色阴影（带靛蓝色相） */
+            --shadow-subtle: 0 1px 2px rgba(28, 39, 76, 0.06);
+            --shadow-light: 0 1px 3px rgba(28, 39, 76, 0.07), 0 1px 2px rgba(28, 39, 76, 0.05);
+            --shadow-medium: 0 4px 12px rgba(28, 39, 76, 0.08), 0 2px 4px rgba(28, 39, 76, 0.05);
+            --shadow-heavy: 0 12px 32px rgba(28, 39, 76, 0.12), 0 4px 8px rgba(28, 39, 76, 0.06);
         }
 
         body {
+            position: relative;
             background-color: var(--secondary-bg);
             color: var(--text-primary);
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            -webkit-font-smoothing: antialiased;
+            text-rendering: optimizeLegibility;
         }
 
-        /* Fade-in animation */
+        /* 背景等高线纹理：双中心同心环，极淡紫 */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 0;
+            background:
+                repeating-radial-gradient(circle at 10% 0%, rgba(99, 91, 255, 0.045) 0 1px, transparent 1px 64px),
+                repeating-radial-gradient(circle at 92% 100%, rgba(99, 91, 255, 0.035) 0 1px, transparent 1px 80px);
+        }
+
+        header, main, footer { position: relative; z-index: 1; }
+
+        ::selection { background: rgba(99, 91, 255, 0.18); }
+
+        /* Fade-in 动画 */
         .fade-in {
-            animation: fadeIn 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            animation: fadeIn 0.45s cubic-bezier(0.2, 0, 0, 1) both;
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(8px); }
+            from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* Staggered animation delays */
-        .delay-1 { animation-delay: 0.05s; }
-        .delay-2 { animation-delay: 0.1s; }
-        .delay-3 { animation-delay: 0.15s; }
-        .delay-4 { animation-delay: 0.2s; }
+        .delay-1 { animation-delay: 0.06s; }
+        .delay-2 { animation-delay: 0.12s; }
+        .delay-3 { animation-delay: 0.18s; }
+        .delay-4 { animation-delay: 0.24s; }
 
-        /* Hover lift effect */
-        .hover-lift {
-            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        @media (prefers-reduced-motion: reduce) {
+            .fade-in { animation: none; }
         }
 
-        .hover-lift:hover {
-            transform: translateY(-1px);
-            box-shadow: var(--shadow-medium);
+        /* ============ Header：顶部 2px 紫饰线 + 毛玻璃 ============ */
+        .site-header {
+            position: sticky;
+            top: 0;
+            z-index: 20;
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border-color);
+            border-top: 2px solid var(--primary-color);
         }
 
-        /* Button micro-interactions */
-        .btn-press {
-            transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+        .brand {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
         }
 
-        .btn-press:hover {
-            transform: translateY(-1px);
-        }
-
-        .btn-press:active {
-            transform: translateY(0);
-        }
-
-        /* Primary gradient button */
-        .btn-primary {
-            background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
-            color: white;
-            font-weight: 500;
-            border: none;
-            box-shadow: 0 2px 4px rgba(84, 66, 222, 0.2);
-        }
-
-        .btn-primary:hover {
-            background: linear-gradient(135deg, var(--primary-light) 0%, var(--primary-color) 100%);
-            box-shadow: 0 4px 8px rgba(84, 66, 222, 0.3);
-        }
-
-        /* Secondary button */
-        .btn-secondary {
-            background: white;
-            border: 1px solid var(--border-color);
-            color: var(--text-secondary);
-            font-weight: 500;
-        }
-
-        .btn-secondary:hover {
-            border-color: var(--primary-light);
-            color: var(--primary-color);
-            background: rgba(84, 66, 222, 0.05);
-        }
-
-        /* Word count tabs - Horizontal scroll style */
-        .word-count-tabs-container {
-            overflow-x: auto;
-            overflow-y: hidden;
-            -webkit-overflow-scrolling: touch;
-            scrollbar-width: none; /* Firefox */
-        }
-
-        .word-count-tabs-container::-webkit-scrollbar {
-            display: none; /* Chrome, Safari */
-        }
-
-        .word-count-tabs-wrapper {
-            display: flex;
-            gap: 24px;
-            padding-bottom: 4px;
-        }
-
-        .word-count-tab {
-            padding: 8px 0;
-            background: none;
-            border: none;
-            color: var(--text-secondary);
-            font-size: 14px;
-            font-weight: 500;
-            white-space: nowrap;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            position: relative;
-            font-family: inherit;
-        }
-
-        .word-count-tab:hover {
-            color: var(--primary-color);
-        }
-
-        .word-count-tab.active {
-            color: var(--primary-color);
-            font-weight: 600;
-        }
-
-        .word-count-tab.active::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            height: 2px;
+        .brand-mark {
+            width: 28px;
+            height: 28px;
+            border-radius: 8px;
             background: var(--primary-color);
-            border-radius: 1px;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 13px;
+            box-shadow: var(--shadow-subtle);
         }
 
-        /* Textarea styling */
-        .textarea-modern {
+        .brand-name {
+            font-size: 16px;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            color: var(--text-primary);
+        }
+
+        .brand-name .brand-accent { color: var(--primary-color); }
+
+        /* ============ 排版工具类 ============ */
+        .kicker-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 5px 14px;
+            background: #fff;
             border: 1px solid var(--border-color);
-            background: white;
-            transition: all 0.2s ease;
-            font-family: inherit; /* Ensure font family matches for perfect alignment */
+            border-radius: 9999px;
+            box-shadow: var(--shadow-subtle);
+            font-size: 10px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.18em;
+            color: var(--text-secondary);
+        }
+
+        .kicker-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--primary-color);
+            flex-shrink: 0;
+        }
+
+        .headline {
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            line-height: 1.02;
+            color: var(--text-primary);
+        }
+
+        .headline em {
+            font-style: italic;
+            letter-spacing: -0.02em;
+            color: var(--primary-color);
+        }
+
+        .figures { font-variant-numeric: tabular-nums; letter-spacing: -0.01em; }
+
+        /* Hero badge 药丸 */
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 14px;
+            background: var(--muted);
+            border: 1px solid var(--border-color);
+            border-radius: 9999px;
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--text-secondary);
+        }
+
+        .hero-badge i { color: var(--primary-color); font-size: 12px; }
+
+        /* ============ 卡片 ============ */
+        .card {
+            background: #fff;
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: var(--shadow-light);
+            transition: transform 0.2s cubic-bezier(0.2, 0, 0, 1), box-shadow 0.2s cubic-bezier(0.2, 0, 0, 1), border-color 0.2s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-heavy);
+            border-color: var(--border-strong);
+        }
+
+        .card-title {
+            font-size: 17px;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            color: var(--text-primary);
+        }
+
+        .input-stats {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            font-size: 13px;
+            font-weight: 400;
+            color: var(--text-secondary);
+        }
+
+        .input-stats strong { color: var(--text-primary); font-weight: 600; }
+        .input-stats i { font-size: 12px; margin-right: 2px; color: var(--primary-color); }
+
+        /* ============ 输入编辑区 ============ */
+        .textarea-modern {
+            border: 1px solid var(--border-strong);
+            background: #fff;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+            font-family: inherit;
             font-size: 15px;
             line-height: 1.6;
+            color: var(--text-primary);
             min-height: 400px;
-            padding: 16px; /* Match overlay padding for proper alignment */
-            white-space: pre-wrap; /* Match overlay for proper line wrapping */
-            word-wrap: break-word; /* Match overlay for word breaking */
+            padding: 16px;
+            white-space: pre-wrap;
+            word-wrap: break-word;
             overflow-y: auto;
             outline: none;
+            border-radius: 10px;
         }
 
-        /* Placeholder for contenteditable */
         .textarea-modern:empty:before {
             content: attr(data-placeholder);
-            color: var(--text-secondary);
+            color: rgba(93, 109, 132, 0.6);
             font-style: italic;
         }
 
         .textarea-modern:focus {
             border-color: var(--primary-color);
-            box-shadow: 0 0 0 3px rgba(84, 66, 222, 0.1);
+            box-shadow: 0 0 0 3px rgba(99, 91, 255, 0.18);
             outline: none;
         }
 
-        /* Highlighted keyword style */
-        .highlight-red {
-            color: #DC2626 !important;
-            font-weight: 600;
+        .card-actions {
+            margin-top: 16px;
+            padding-top: 16px;
+            border-top: 1px solid var(--border-color);
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
         }
 
-        /* Keyword tags */
-        .keyword-tag {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            padding: 6px 12px;
-            background: rgba(84, 66, 222, 0.1);
+        /* ============ 按钮 ============ */
+        .btn-primary {
+            background: var(--primary-color);
+            color: #fff;
+            font-weight: 500;
+            font-size: 14px;
+            border: none;
+            border-radius: 9999px;
+            padding: 10px 22px;
+            box-shadow: var(--shadow-subtle);
+            transition: all 0.15s cubic-bezier(0.2, 0, 0, 1);
+        }
+
+        .btn-primary:hover { background: var(--primary-hover); transform: translateY(-1px); box-shadow: var(--shadow-medium); }
+        .btn-primary:active { transform: translateY(0); }
+
+        .btn-secondary {
+            background: #fff;
+            border: 1px solid var(--border-color);
+            color: var(--text-secondary);
+            font-weight: 500;
+            font-size: 14px;
+            border-radius: 9999px;
+            padding: 10px 20px;
+            transition: all 0.15s ease;
+        }
+
+        .btn-secondary:hover {
+            border-color: rgba(99, 91, 255, 0.4);
             color: var(--primary-color);
-            border-radius: 20px;
+            background: var(--accent);
+        }
+
+        .btn-secondary:active, .btn-primary:active { transform: scale(0.98); }
+
+        /* ============ 统计数字 ============ */
+        .stat-value {
+            font-weight: 800;
+            font-size: 22px;
+            line-height: 1;
+            letter-spacing: -0.01em;
+            font-variant-numeric: tabular-nums;
+        }
+
+        .stat-label {
+            font-size: 10px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--text-secondary);
+            margin-top: 3px;
+        }
+
+        /* ============ 词数 Tab（药丸徽章） ============ */
+        .word-count-tabs-container {
+            overflow-x: auto;
+            overflow-y: hidden;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+        }
+
+        .word-count-tabs-container::-webkit-scrollbar { display: none; }
+
+        .word-count-tabs-wrapper {
+            display: flex;
+            gap: 8px;
+            width: max-content;
+            padding-bottom: 2px;
+        }
+
+        .word-count-tab {
+            padding: 7px 14px;
+            background: var(--muted);
+            border: 1px solid rgba(38, 50, 77, 0.08);
+            border-radius: 9999px;
+            color: var(--text-secondary);
             font-size: 13px;
             font-weight: 500;
-            transition: all 0.15s ease;
-            cursor: default;
-        }
-
-        .keyword-tag:hover {
-            background: rgba(84, 66, 222, 0.2);
-        }
-
-        .remove-tag {
+            white-space: nowrap;
             cursor: pointer;
-            font-size: 12px;
-            opacity: 0.7;
-            transition: opacity 0.15s ease;
+            transition: all 0.15s ease;
+            font-family: inherit;
         }
 
-        .remove-tag:hover {
-            opacity: 1;
-            color: var(--error);
+        .word-count-tab:hover {
+            color: var(--primary-color);
+            border-color: rgba(99, 91, 255, 0.35);
         }
 
-        /* Results table */
-        .results-table {
-            border-collapse: collapse;
-            width: 100%;
-            font-size: 14px;
-        }
-
-        .results-table th {
-            font-weight: 600;
-            color: var(--text-secondary);
-            text-align: left;
-            padding: 12px 8px;
-            border-bottom: 1px solid var(--border-color);
-        }
-
-        .results-table td {
-            padding: 12px 8px;
-            border-bottom: 1px solid #f5f5f4;
-        }
-
-        .results-table tr:hover {
-            background: var(--secondary-bg);
-        }
-
-        .results-table tr:last-child td {
-            border-bottom: none;
-        }
-
-        /* Sticky positioning */
-        .sticky-col {
-            position: sticky;
-            top: 20px;
-            height: fit-content;
-        }
-
-        /* Section dividers */
-        .section-divider {
-            height: 1px;
-            background: linear-gradient(to right, transparent, #e5e4e1, transparent);
-            margin: 32px 0;
-        }
-
-        /* Loading spinner */
-        .spinner {
-            border: 2px solid #f3f3f3;
-            border-top: 2px solid var(--primary-color);
-            border-radius: 50%;
-            width: 20px;
-            height: 20px;
-            animation: spin 1s linear infinite;
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        /* Custom scrollbar */
-        .custom-scrollbar::-webkit-scrollbar {
-            width: 6px;
-        }
-
-        .custom-scrollbar::-webkit-scrollbar-track {
-            background: #f1f1f1;
-            border-radius: 3px;
-        }
-
-        .custom-scrollbar::-webkit-scrollbar-thumb {
+        .word-count-tab.active {
             background: var(--primary-color);
-            border-radius: 3px;
+            border-color: var(--primary-color);
+            color: #fff;
+            font-weight: 600;
+            box-shadow: var(--shadow-subtle);
         }
 
-        /* 分母虚词开关 */
+        /* ============ 分母虚词开关 ============ */
         .stopwords-toggle {
             display: inline-flex;
             align-items: center;
             gap: 8px;
-            margin: -8px 0 20px;
+            margin: 12px 0 18px;
             font-size: 13px;
             color: var(--text-secondary);
             cursor: pointer;
@@ -316,75 +389,240 @@
             cursor: pointer;
         }
 
-        /* Subtle alert styling */
-        .alert-subtle {
-            background: linear-gradient(135deg, #FFFBEB 0%, #FEF3C7 100%);
-            border: 1px solid #F59E0B;
-            border-radius: 8px;
-            padding: 12px 16px;
+        /* ============ 高亮关键词标签 ============ */
+        .keyword-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 5px 12px;
+            background: var(--accent);
+            color: var(--primary-color);
+            border: 1px solid rgba(99, 91, 255, 0.25);
+            border-radius: 9999px;
+            font-size: 13px;
+            font-weight: 500;
+            transition: all 0.15s ease;
+            cursor: default;
         }
 
-        /* Hero section */
-        .hero-gradient {
-            background: linear-gradient(135deg, rgba(84, 66, 222, 0.05) 0%, rgba(84, 66, 222, 0.02) 100%);
+        .keyword-tag:hover { background: rgba(99, 91, 255, 0.16); }
+
+        .remove-tag {
+            cursor: pointer;
+            font-size: 12px;
+            opacity: 0.7;
+            transition: all 0.15s ease;
+        }
+
+        .remove-tag:hover { opacity: 1; color: var(--error); }
+
+        /* 编辑器内关键词高亮 */
+        .highlight-red {
+            color: var(--error) !important;
+            font-weight: 600;
+            background: rgba(203, 39, 50, 0.06);
+            border-radius: 3px;
+        }
+
+        /* ============ 结果表格 ============ */
+        .results-table {
+            border-collapse: collapse;
+            width: 100%;
+            font-size: 14px;
+        }
+
+        .results-table th {
+            font-size: 10px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--text-secondary);
+            text-align: left;
+            padding: 10px 8px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .results-table th.text-center { text-align: center; }
+
+        .results-table td {
+            padding: 11px 8px;
+            border-bottom: 1px solid rgba(38, 50, 77, 0.06);
+        }
+
+        .results-table tbody tr { transition: background 0.12s ease; }
+        .results-table tbody tr:hover { background: var(--muted); }
+        .results-table tbody tr:last-child td { border-bottom: none; }
+
+        .keyword-cell {
+            font-family: 'Geist Mono', ui-monospace, Menlo, monospace;
+            font-size: 13px;
+            color: var(--text-primary);
+            word-break: break-word;
+        }
+
+        .count-cell { text-align: center; font-weight: 600; color: var(--text-primary); font-variant-numeric: tabular-nums; }
+        .total-cell { text-align: center; color: var(--text-secondary); font-variant-numeric: tabular-nums; }
+        .density-cell { text-align: center; font-weight: 600; color: var(--primary-color); font-variant-numeric: tabular-nums; }
+
+        /* 行内 Highlight 按钮 */
+        .row-highlight-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            font-family: inherit;
+            font-size: 12px;
+            font-weight: 500;
+            padding: 4px 11px;
+            background: #fff;
+            border: 1px solid var(--border-color);
+            border-radius: 9999px;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.15s ease;
+        }
+
+        .row-highlight-btn:hover {
+            border-color: rgba(99, 91, 255, 0.4);
+            color: var(--primary-color);
+            background: var(--accent);
+        }
+
+        .row-highlight-btn.is-active {
+            background: var(--primary-color);
+            border-color: var(--primary-color);
+            color: #fff;
+        }
+
+        /* ============ 加载与空状态 ============ */
+        .spinner {
+            border: 2px solid rgba(38, 50, 77, 0.12);
+            border-top: 2px solid var(--primary-color);
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .empty-icon {
+            width: 56px;
+            height: 56px;
+            margin: 0 auto 14px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(99, 91, 255, 0.08);
+        }
+
+        .empty-icon i { font-size: 20px; color: var(--primary-color); }
+        .empty-icon.warning { background: rgba(186, 116, 4, 0.1); }
+        .empty-icon.warning i { color: var(--warning); }
+
+        .nr-title { font-size: 15px; font-weight: 600; color: var(--text-primary); margin-bottom: 4px; }
+        .nr-sub { font-size: 13px; color: var(--text-secondary); }
+
+        /* 警告框（短文本提醒）与错误框 */
+        .warning-box {
+            background: #fff8e6;
+            border: 1px solid #f0d9a8;
+            border-radius: 10px;
+            padding: 16px 20px;
+            text-align: center;
+        }
+
+        .warning-box p { color: var(--warning); font-size: 14px; font-weight: 500; margin-bottom: 6px; }
+        .warning-box p:last-child { margin-bottom: 0; }
+        .warning-box .warning-sub { font-size: 13px; font-weight: 400; color: rgba(186, 116, 4, 0.8); }
+
+        .error-box {
+            background: #fdecec;
+            border: 1px solid #f5c6c6;
+            border-radius: 10px;
+            padding: 12px 16px;
+            color: var(--error);
+            font-size: 14px;
+        }
+
+        /* ============ 自定义滚动条 ============ */
+        .custom-scrollbar::-webkit-scrollbar { width: 6px; height: 6px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: var(--muted); border-radius: 3px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(38, 50, 77, 0.25); border-radius: 3px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: var(--primary-color); }
+
+        /* ============ Footer：巨幅水印 ============ */
+        .site-footer {
+            margin-top: 64px;
+            border-top: 1px solid var(--border-color);
+            overflow: hidden;
+        }
+
+        .footer-watermark {
+            font-weight: 800;
+            font-size: clamp(56px, 11vw, 150px);
+            letter-spacing: -0.04em;
+            line-height: 1;
+            text-align: center;
+            white-space: nowrap;
+            color: rgba(28, 39, 76, 0.055);
+            user-select: none;
+            padding-top: 24px;
+        }
+
+        .footer-watermark .wm-accent { color: rgba(99, 91, 255, 0.2); }
+
+        .footer-bottom {
+            text-align: center;
+            padding: 16px 24px 28px;
+            font-size: 13px;
+            color: var(--text-secondary);
         }
     </style>
 </head>
-<body class="bg-gray-50 min-h-screen" style="background-color: var(--secondary-bg);">
-    <!-- Header -->
-    <header class="bg-white border-b border-gray-200 sticky top-0 z-10" style="border-color: var(--border-color);">
+<body class="min-h-screen">
+    <!-- Header：顶部 2px 紫饰线由 .site-header 的 border-top 提供 -->
+    <header class="site-header">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex items-center justify-between h-16">
-                <div class="flex items-center">
-                    <i class="fas fa-chart-line text-xl" style="color: var(--primary-color);"></i>
-                    <h1 class="ml-3 text-lg font-semibold text-gray-900">Keyword Density Calculator</h1>
+            <div class="flex items-center h-16">
+                <div class="brand">
+                    <div class="brand-mark"><i class="fas fa-chart-line"></i></div>
+                    <h1 class="brand-name">keyword density<span class="brand-accent">.calculator</span></h1>
                 </div>
             </div>
         </div>
     </header>
 
     <!-- Main Content -->
-    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <!-- Hero Section - Unified introduction -->
-        <section class="hero-gradient rounded-2xl p-8 mb-8 fade-in">
-            <div class="flex items-start space-x-4">
-                <div class="flex-shrink-0">
-                    <div class="w-14 h-14 rounded-xl flex items-center justify-center shadow-md" style="background: var(--primary-color);">
-                        <i class="fas fa-search text-white text-xl"></i>
-                    </div>
-                </div>
-                <div class="flex-1 min-w-0">
-                    <h2 class="text-2xl font-bold text-gray-900 mb-2">Keyword Density Analysis</h2>
-                    <p class="text-gray-600 mb-4">
-                        Optimize your content for SEO by analyzing keyword density across 1-10 word combinations. Supports JSON extraction, real-time analysis, and keyword highlighting.
-                    </p>
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                        <div class="flex items-center space-x-2 text-sm text-gray-700">
-                            <i class="fas fa-check-circle" style="color: var(--success);"></i>
-                            <span>Real-time analysis</span>
-                        </div>
-                        <div class="flex items-center space-x-2 text-sm text-gray-700">
-                            <i class="fas fa-check-circle" style="color: var(--success);"></i>
-                            <span>JSON support</span>
-                        </div>
-                        <div class="flex items-center space-x-2 text-sm text-gray-700">
-                            <i class="fas fa-check-circle" style="color: var(--success);"></i>
-                            <span>Keyword highlighting</span>
-                        </div>
-                    </div>
-                </div>
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+        <!-- Hero Section -->
+        <section class="mb-10 fade-in">
+            <div class="kicker-pill mb-5"><span class="kicker-dot"></span>Free SEO Tool</div>
+            <h2 class="headline mb-4" style="font-size: clamp(36px, 5vw, 60px);">
+                Keyword density,<br><em>measured</em>.
+            </h2>
+            <p class="text-[17px] leading-relaxed max-w-[620px] mb-6" style="color: var(--text-secondary);">
+                Optimize your content for SEO by analyzing keyword density across 1–10 word combinations. Real words only, stop words filtered, no signup.
+            </p>
+            <div class="flex flex-wrap gap-2.5">
+                <span class="hero-badge"><i class="fas fa-bolt"></i> Real-time analysis</span>
+                <span class="hero-badge"><i class="fas fa-code"></i> JSON support</span>
+                <span class="hero-badge"><i class="fas fa-highlighter"></i> Keyword highlighting</span>
+                <span class="hero-badge"><i class="fas fa-filter"></i> Stop word filtering</span>
             </div>
         </section>
 
         <!-- Main Tool -->
-        <div class="grid grid-cols-1 lg:grid-cols-5 gap-8">
+        <div class="grid grid-cols-1 lg:grid-cols-5 gap-6">
             <!-- Input Column (3/5) -->
-            <div class="lg:col-span-3 fade-in delay-2 sticky-col">
-                <!-- Text Input - Single main card -->
-                <div class="bg-white rounded-xl p-6 hover-lift" style="box-shadow: var(--shadow-light);">
+            <div class="lg:col-span-3 fade-in delay-1 sticky-col">
+                <div class="card">
                     <div class="flex items-center justify-between mb-4">
-                        <h3 class="text-lg font-semibold text-gray-900">Input Text</h3>
-                        <div class="flex items-center space-x-3 text-sm text-gray-500">
+                        <h3 class="card-title">Input Text</h3>
+                        <div class="input-stats figures">
                             <span>
                                 <i class="fas fa-font mr-1"></i>
                                 <strong id="input-word-count">0</strong> words
@@ -399,46 +637,44 @@
                     <div class="relative">
                         <div
                             id="text-input"
-                            class="textarea-modern w-full rounded-lg resize-none"
+                            class="textarea-modern w-full resize-none"
                             contenteditable="true"
                             data-placeholder="Paste your text or JSON here for analysis..."
                         ></div>
                     </div>
 
-                    <div class="mt-4 pt-4 border-t border-gray-100 flex justify-end space-x-3">
-                        <button id="clear-btn" class="btn-secondary px-4 py-2 rounded-lg btn-press">
+                    <div class="card-actions">
+                        <button id="clear-btn" class="btn-secondary">
                             <i class="fas fa-eraser mr-2"></i>
                             Clear
                         </button>
-                        <button id="analyze-btn" class="btn-primary px-6 py-2 rounded-lg btn-press">
-                            <i class="fas fa-play mr-2"></i>
+                        <button id="analyze-btn" class="btn-primary">
                             Analyze Now
+                            <i class="fas fa-arrow-right ml-2"></i>
                         </button>
                     </div>
                 </div>
             </div>
 
             <!-- Results Column (2/5) -->
-            <div class="lg:col-span-2 fade-in delay-4 sticky-col">
-                <!-- Stats and Results - Unified section -->
-                <div class="bg-white rounded-xl p-6 hover-lift" style="box-shadow: var(--shadow-light);">
+            <div class="lg:col-span-2 fade-in delay-2 sticky-col">
+                <div class="card">
                     <div class="flex items-center justify-between mb-4">
-                        <h3 class="text-lg font-semibold text-gray-900">Analysis Results</h3>
-                        <!-- Stats displayed inline with title -->
-                        <div class="flex items-center gap-6 text-sm">
+                        <h3 class="card-title">Analysis Results</h3>
+                        <div class="flex items-center gap-5">
                             <div class="text-center">
-                                <div class="font-bold" style="color: var(--primary-color); font-size: 18px;" id="total-words">0</div>
-                                <div class="text-xs text-gray-500">Total Words</div>
+                                <div class="stat-value figures" style="color: var(--primary-color);" id="total-words">0</div>
+                                <div class="stat-label">Total Words</div>
                             </div>
                             <div class="text-center">
-                                <div class="font-bold text-green-600" style="font-size: 18px;" id="unique-keywords">0</div>
-                                <div class="text-xs text-gray-500">Unique</div>
+                                <div class="stat-value figures" style="color: var(--success);" id="unique-keywords">0</div>
+                                <div class="stat-label">Unique</div>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Word Count Tabs - Horizontal scroll -->
-                    <div class="word-count-tabs-container mb-6">
+                    <!-- Word Count Tabs -->
+                    <div class="word-count-tabs-container mb-2">
                         <div class="word-count-tabs-wrapper">
                             <button class="word-count-tab active" data-count="1">1 Word</button>
                             <button class="word-count-tab" data-count="2">2 Words</button>
@@ -460,13 +696,13 @@
                     </label>
 
                     <!-- Highlighted Keywords Tags -->
-                    <div id="highlighted-tags" class="mb-6 hidden">
+                    <div id="highlighted-tags" class="mb-5 hidden">
                         <div class="flex items-center justify-between mb-3">
-                            <h4 class="text-sm font-medium text-gray-700 flex items-center">
+                            <h4 class="text-[13px] font-semibold flex items-center" style="color: var(--text-primary);">
                                 <i class="fas fa-highlighter mr-2" style="color: var(--primary-color);"></i>
                                 Highlighted Keywords
                             </h4>
-                            <span class="text-xs text-gray-500" id="highlighted-count">0 keywords</span>
+                            <span class="text-xs" style="color: var(--text-secondary);" id="highlighted-count">0 keywords</span>
                         </div>
                         <div id="tags-container" class="flex flex-wrap gap-2">
                             <!-- Tags will be populated by JavaScript -->
@@ -474,9 +710,9 @@
                     </div>
 
                     <!-- Loading State -->
-                    <div id="loading-state" class="hidden py-8 text-center">
+                    <div id="loading-state" class="hidden py-10 text-center">
                         <div class="spinner mx-auto mb-3"></div>
-                        <p class="text-sm text-gray-600">Analyzing your text...</p>
+                        <p class="nr-sub">Analyzing your text...</p>
                     </div>
 
                     <!-- Results Container -->
@@ -501,26 +737,22 @@
 
                     <!-- No Results -->
                     <div id="no-results" class="text-center py-12 hidden">
-                        <div class="w-16 h-16 mx-auto mb-4 rounded-full flex items-center justify-center" style="background: rgba(84, 66, 222, 0.1);">
-                            <i class="fas fa-chart-pie text-xl" style="color: var(--primary-color);"></i>
+                        <div class="empty-icon">
+                            <i class="fas fa-chart-pie"></i>
                         </div>
-                        <h4 class="text-gray-600 font-medium mb-1">Ready for Analysis</h4>
-                        <p class="text-gray-500 text-sm">Enter your text above and click "Analyze Now"</p>
+                        <h4 class="nr-title mb-1">Ready for Analysis</h4>
+                        <p class="nr-sub">Enter your text above and click "Analyze Now"</p>
                     </div>
                 </div>
             </div>
         </div>
     </main>
 
-    <!-- Footer -->
-    <footer class="bg-white border-t border-gray-200 mt-16" style="border-color: var(--border-color);">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-            <div class="text-center">
-                <p class="text-sm text-gray-500">
-                    <i class="fas fa-tools mr-2" style="color: var(--primary-color);"></i>
-                    Keyword Density Calculator — Free online SEO tool
-                </p>
-            </div>
+    <!-- Footer：巨幅水印 + 版权行 -->
+    <footer class="site-footer">
+        <div class="footer-watermark" aria-hidden="true">keyword <span class="wm-accent">density</span></div>
+        <div class="footer-bottom">
+            © 2026 Keyword Density Calculator — Free online SEO tool
         </div>
     </footer>
 
